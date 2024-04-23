@@ -1,7 +1,8 @@
-﻿using NAudio.Wave;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using System.Xml;
+
+using NAudio.Wave;
 
 namespace LiveSplit.UI.Components
 {
@@ -78,7 +79,9 @@ namespace LiveSplit.UI.Components
             StartTimerVolume = 100;
 
             for (int i = 0; i < WaveOut.DeviceCount; ++i)
+            {
                 cbOutputDevice.Items.Add(WaveOut.GetCapabilities(i));
+            }
 
             txtSplitPath.DataBindings.Add("Text", this, "Split");
             txtSplitAheadGaining.DataBindings.Add("Text", this, "SplitAheadGaining");
@@ -211,7 +214,9 @@ namespace LiveSplit.UI.Components
             var result = fileDialog.ShowDialog();
 
             if (result == DialogResult.OK)
+            {
                 path = fileDialog.FileName;
+            }
 
             textBox.Text = path;
             callback(path);

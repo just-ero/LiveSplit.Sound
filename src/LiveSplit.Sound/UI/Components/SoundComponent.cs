@@ -1,12 +1,14 @@
-﻿using LiveSplit.Model;
-using LiveSplit.Options;
-using NAudio.Wave;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+
+using LiveSplit.Model;
+using LiveSplit.Options;
+
+using NAudio.Wave;
 
 namespace LiveSplit.UI.Components
 {
@@ -77,9 +79,13 @@ namespace LiveSplit.UI.Components
             if (State.CurrentPhase == TimerPhase.Ended)
             {
                 if (State.Run.Last().PersonalBestSplitTime[State.CurrentTimingMethod] == null || State.Run.Last().SplitTime[State.CurrentTimingMethod] < State.Run.Last().PersonalBestSplitTime[State.CurrentTimingMethod])
+                {
                     PlaySound(Settings.PersonalBest, Settings.PersonalBestVolume);
+                }
                 else
+                {
                     PlaySound(Settings.NotAPersonalBest, Settings.NotAPersonalBestVolume);
+                }
             }
             else
             {
@@ -128,7 +134,9 @@ namespace LiveSplit.UI.Components
                 }
 
                 if (string.IsNullOrEmpty(path))
+                {
                     path = Settings.Split;
+                }
 
                 PlaySound(path, volume);
             }
@@ -157,7 +165,9 @@ namespace LiveSplit.UI.Components
         private void State_OnReset(object sender, TimerPhase e)
         {
             if (e != TimerPhase.Ended)
+            {
                 PlaySound(Settings.Reset, Settings.ResetVolume);
+            }
         }
 
         private void PlaySound(string location, int volume)
@@ -170,8 +180,10 @@ namespace LiveSplit.UI.Components
                 {
                     try
                     {
-                        AudioFileReader audioFileReader = new AudioFileReader(location);
-                        audioFileReader.Volume = (volume / 100f) * (Settings.GeneralVolume / 100f);
+                        AudioFileReader audioFileReader = new AudioFileReader(location)
+                        {
+                            Volume = volume / 100f * (Settings.GeneralVolume / 100f)
+                        };
 
                         Player.DeviceNumber = Settings.OutputDevice;
                         Player.Init(audioFileReader);
@@ -185,6 +197,9 @@ namespace LiveSplit.UI.Components
             }
         }
 
-        public int GetSettingsHashCode() => Settings.GetSettingsHashCode();
+        public int GetSettingsHashCode()
+        {
+            return Settings.GetSettingsHashCode();
+        }
     }
 }
